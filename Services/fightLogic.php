@@ -27,27 +27,6 @@ if (!isset($_SESSION['compteur'])) {
 define('JOUEUR', 1);
 define('MONSTRE', 2);
 
-
-
-
-// GESTION DES TOURS S'IL RESTE DES HP
-if ($_SESSION['hpHero'] > 0 && $_SESSION['hpMonstre'] > 0) {
-    if ($_SESSION['compteur'] % 2 == 0) {
-        attaque(JOUEUR);
-    } else {
-        attaque(MONSTRE);
-    }
-} else {              // SINON FIN DE GAME
-    if ($_SESSION['hpHero'] <= 0) {
-        echo "Le monstre gagne !";
-    } elseif ($_SESSION['hpMonstre'] <= 0) {
-        echo "Le héros gagne !";
-    }
-}
-
-
-
-
 // A chaque attaque, le compteur +1. Si le compteur est pair, c'est le héro qui attaque. S'il est impair alors c'est au monstre.
 function attaque($attaquant){
     if($attaquant == JOUEUR){
@@ -185,7 +164,7 @@ function calculerDegatsMonstre($Monstre, $Stuff){
             break;
 
         case "Brendon Desvaux" : 
-            $typeMonstre = 888;
+            $typeMonstre = 1337;
             break;
 
         case "Fiddlesticks" : 
