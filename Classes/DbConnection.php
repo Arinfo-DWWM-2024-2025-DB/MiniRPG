@@ -23,16 +23,6 @@ class DbConnection {
         $stmt->execute($params);
         return $stmt;
     }
-
-    public function fetchAll($query, $params = []) {
-        $stmt = $this->executeQuery($query, $params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function fetchOne($query, $params = []) {
-        $stmt = $this->executeQuery($query, $params);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
 }
 
 ?>
