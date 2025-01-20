@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 20 jan. 2025 à 14:24
+-- Généré le : lun. 20 jan. 2025 à 15:08
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -32,6 +32,17 @@ CREATE TABLE `classe` (
   `nom` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `classe`
+--
+
+INSERT INTO `classe` (`id`, `nom`) VALUES
+(1, 'Guerrier'),
+(2, 'Civil'),
+(3, 'Mage'),
+(4, 'Archer'),
+(5, 'Bandit');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +56,24 @@ CREATE TABLE `equipement` (
   `puissance` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `equipement`
+--
+
+INSERT INTO `equipement` (`id`, `nom`, `type_equipement`, `puissance`) VALUES
+(1, 'Épée', 'Une main', 10),
+(2, 'Masse', 'Deux mains', 15),
+(3, 'Bâton', 'Une main', 2),
+(4, 'Arc avec 2 élastiques et un stabilo', 'Longue distance', 3),
+(5, 'Couteau', 'Une main', 7),
+(6, 'Arbalète', 'Longue distance', 12),
+(7, 'Arc', 'Longue distance', 9),
+(8, 'Arc des enfers', 'Longue distance', 66),
+(9, 'Matraque électrique', 'Une main', 8),
+(10, 'M4A1-S', 'Longue distance', 45),
+(11, 'Boule de feu', 'Magique', 12),
+(12, 'Télékinésie', 'Magique', 8);
+
 -- --------------------------------------------------------
 
 --
@@ -52,9 +81,29 @@ CREATE TABLE `equipement` (
 --
 
 CREATE TABLE `equipement_classe` (
-  `equipement_id` int(11) NOT NULL,
-  `classe_id` int(11) NOT NULL
+  `classe_id` int(11) NOT NULL,
+  `equipement_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `equipement_classe`
+--
+
+INSERT INTO `equipement_classe` (`classe_id`, `equipement_id`) VALUES
+(4, 6),
+(4, 7),
+(4, 4),
+(4, 8),
+(2, 3),
+(5, 5),
+(1, 10),
+(4, 10),
+(1, 2),
+(1, 9),
+(2, 9),
+(1, 1),
+(3, 12),
+(3, 11);
 
 -- --------------------------------------------------------
 
@@ -90,8 +139,8 @@ ALTER TABLE `equipement`
 -- Index pour la table `equipement_classe`
 --
 ALTER TABLE `equipement_classe`
-  ADD KEY `contrainte_classe` (`classe_id`),
-  ADD KEY `contrainte_equipmenet` (`equipement_id`);
+  ADD KEY `ec_classe` (`classe_id`),
+  ADD KEY `ec_equipement` (`equipement_id`);
 
 --
 -- Index pour la table `personnage`
@@ -108,13 +157,13 @@ ALTER TABLE `personnage`
 -- AUTO_INCREMENT pour la table `classe`
 --
 ALTER TABLE `classe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `equipement`
 --
 ALTER TABLE `equipement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `personnage`
@@ -130,8 +179,8 @@ ALTER TABLE `personnage`
 -- Contraintes pour la table `equipement_classe`
 --
 ALTER TABLE `equipement_classe`
-  ADD CONSTRAINT `contrainte_classe` FOREIGN KEY (`classe_id`) REFERENCES `classe` (`id`),
-  ADD CONSTRAINT `contrainte_equipmenet` FOREIGN KEY (`equipement_id`) REFERENCES `equipement` (`id`);
+  ADD CONSTRAINT `ec_classe` FOREIGN KEY (`classe_id`) REFERENCES `classe` (`id`),
+  ADD CONSTRAINT `ec_equipement` FOREIGN KEY (`equipement_id`) REFERENCES `equipement` (`id`);
 
 --
 -- Contraintes pour la table `personnage`
