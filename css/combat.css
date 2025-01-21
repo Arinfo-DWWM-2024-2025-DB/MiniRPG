@@ -6,3 +6,89 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+
+.zombie {
+    background-image: url(./assets/Images/Monstre/Zombie.png);
+    display: none;
+}
+
+.davidLafarge {
+    background-image: url(assets/Images/Monstre/DavidLafargePokemon.png);
+    display: none;
+}
+
+.brachiosaurus {
+    background-image: url(assets/Images/Monstre/Brachiosaur.png);
+    display: none;
+}
+
+.brendonDesvaux {
+    background-image: url(assets/Images/Monstre/BrendonDesfaux.png);
+    display: none;
+}
+
+.fiddlesticks {
+    background-image: url(assets/Images/Monstre/Fiddlestick.png);
+    display: none;
+}
+
+.vampire {
+    background-image: url(assets/Images/Monstre/Zombie.png);
+    display: none;
+}
+
+.gordonFreeman {
+    background-image: url(assets/Images/Monstre/Gordonfreeman.png);
+    display: none;
+}
+
+.dragonBlancAuxYeuxBleus {
+    background-image: url(assets/Images/Monstre/dragon.png);
+    display: none;
+}
+
+.golem {
+    background-image: url(assets/Images/Monstre/golem.png);
+    display: none;
+}
+
+.loupGarou {
+    background-image: url(assets/Images/Monstre/LG.png);
+    display: none;
+}
+
+.troll {
+    background-image: url(assets/Images/Monstre/Troll.png);
+    display: none;
+}
+
+
+.archerDesEnfers {
+    background-image: url();
+    display: none;
+}
+
+.spectreDeLaNuit {
+    background-image: url(assets/Images/Monstre/spectre.png);
+    display: none;
+}
+
+.davidBaszucki {
+    background-image: url(assets/Images/Monstre/DavidBaszucki.png);
+    display: none;
+}
+
+button {
+    background: rgb(209, 112, 8);
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 10px;
+}
+
+button:hover {
+    background-color: rgb(139, 77, 10);
+    cursor: pointer;
+}

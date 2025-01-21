@@ -13,9 +13,10 @@ if (isset($_POST['reset'])) {
 
 if (!isset($_SESSION['player'])) {    
     [$res, $player] = $db->insertPersonnage($_SESSION['hero_name'], $_SESSION['class_hero'], 100, 1, $_POST['stuffHero']);
-    $_SESSION['player'] = serialize($player);
-    $_SESSION['monster'] = serialize($db->getRandomMonstre());
+    $_SESSION['player'] = serialize($player);    
 } 
+$_SESSION['monster'] = serialize($db->getRandomMonstre());
+
 $player = unserialize($_SESSION['player']);
 $monster = unserialize($_SESSION['monster']);
 
@@ -68,7 +69,7 @@ while ($_SESSION['hpHero'] > 0 && $_SESSION['hpMonstre'] > 0) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
