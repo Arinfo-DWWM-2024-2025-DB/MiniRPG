@@ -8,6 +8,7 @@ class Personnage extends ObjetDb
     private int $pv;
     private int $niveau;
     private int $classe_id;
+    private int $equipement_id;
 
     public function __construct(array $data)
     {
@@ -17,6 +18,7 @@ class Personnage extends ObjetDb
         $this->pv = $data['pv'];
         $this->niveau = $data['niveau'];
         $this->classe_id = $data['classe_id'];
+        $this->equipement_id = $data['equipement_id'];
     }
 
     public function getNom(): string
@@ -42,6 +44,11 @@ class Personnage extends ObjetDb
     public function getClasse(): ClassePersonnage
     {
         return $this->db->getClassePersonnage($this->classe_id);
+    }
+
+    public function getEquipement(): Equipement
+    {
+        return $this->db->getEquipement($this->equipement_id);
     }
 }
 

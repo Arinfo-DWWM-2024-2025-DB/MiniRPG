@@ -1,42 +1,33 @@
 <?php
 
+include 'Classes/DbConnection.php';
+
 session_start();
 
-try {
-    // Connexion à la base de données
-    $pdo = new PDO('mysql:host=localhost;dbname=minirpg;charset=utf8', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die('Erreur de connexion : ' . $e->getMessage());
-}
-
-
-//Récupération des classes
-$sqlClasses = "SELECT id, nom FROM classe";
-$classes = [];
-try {
-    $stmt = $pdo->query($sqlClasses);
-    $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}catch (PDOException $e) {
-    die('Erreur lors de la récupération des classes : ' . $e->getMessage());
-}
-
-
-//Récupération des equipements : nom, id et classe associée + deux jointures
-$sqlEquipements = "
-    SELECT e.id AS equipement_id, e.nom AS equipement_nom, c.id AS classe_id 
-    FROM equipement e
-    INNER JOIN equipement_classe ec ON e.id = ec.equipement_id
-    INNER JOIN classe c ON ec.classe_id = c.id
-    ";
-
+$pdo = new DbConnection();
+$classes = $pdo->getAllClassesPersonnage();
+$equipementClasses = $pdo->getAllEquipementClasses();
 $equipements = [];
-try {
-    $stmt = $pdo->query($sqlEquipements);
-    $equipements = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}catch (PDOException $e) {
-    die('Erreur lors de la récupération des équipements : ' . $e->getMessage());
+
+foreach ($equipementClasses as $equipementClass) {
+    if (!isset($equipements[$equipementClass['classe_id']])) {  
+        $equipements[$equipementClass['classe_id']] = [];
+    }
+
+    $equipements[$equipementClass['classe_id']][] = [
+        $equipementClass['equipement_id'],
+        $pdo->getEquipement($equipementClass['equipement_id'])->getNom()
+    ];
 }
+
+$availableEquipements = [];
+if (isset($_POST['hero_name'])) {
+    $availableEquipements = $equipements[$_POST['class-hero']];
+
+    $_SESSION['hero_name'] = $_POST['hero_name'];
+    $_SESSION['class_hero'] = $_POST['class-hero'];
+}
+
 
 ?>
 
@@ -50,37 +41,48 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Création d'un personnage</title>
-<link rel="stylesheet" href="/css/hero.css">
-
+    <!-- <link rel="stylesheet" href="./css/hero.css"> -->
 </head>
 
 <body>
     <div class="formContainer">
     <h1>Crée ton héros !</h1>
-    <form action="combat.php" method="POST">
+
+    <form method="POST">
         <label>Nom du héros : </label>
-        <input type="text" id="hero-name" name="hero_name" required>
+        <input type="text" id="hero-name" name="hero_name" value="<?= isset($_POST['hero_name']) ? htmlspecialchars($_POST['hero_name']) : '' ?>" required>
         <br>
         <label for="class">Classe du héros :</label>
-        <select id="classHero" name="classHero" required>
+        <select id="class-hero" name="class-hero" required>
             <?php foreach ($classes as $class): ?>
-                <option value="<?= htmlspecialchars($class['id']) ?>">
+                <option value="<?= htmlspecialchars($class['id']) ?>" <?= isset($_POST['class-hero']) && $_POST['class-hero'] == $class['id'] ? 'selected' : '' ?>>
                     <?= htmlspecialchars($class['nom']) ?>
                 </option>
             <?php endforeach; ?>
         </select>
+        <br><br>
 
+        <button type="submit" id="hero-submit">Sélectionner le héros</button>
+    </form>
+
+    <br><br>
+
+    <form action="combat.php" method="POST">
         <label for="stuff">Équipement :</label>
         <select id="stuffHero" name="stuffHero" required>
-            <option value="épée">Épée</option>
-            <option value="bâton">Bâton</option>
-            <option value="arc">Arc</option>
-            <option value="dague">Dague</option>
+            <?php foreach ($availableEquipements as $equipement): ?>
+                <option value="<?= htmlspecialchars($equipement[0]) ?>">
+                    <?= htmlspecialchars($equipement[1]) ?>
+                </option>
+            <?php endforeach; ?>
         </select>
         <br><br>
         <button type="submit">Commencer l'aventure</button>
     </form>
+    
     </div>
+
+    <script src="/js/hero.js"></script>
 </body>
 
 </html>

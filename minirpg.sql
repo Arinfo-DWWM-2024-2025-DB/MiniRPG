@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 21 jan. 2025 à 11:35
+-- Généré le : mar. 21 jan. 2025 à 14:42
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -150,7 +150,8 @@ CREATE TABLE `personnage` (
   `nom` varchar(256) NOT NULL,
   `classe_id` int(11) NOT NULL,
   `pv` int(11) NOT NULL,
-  `niveau` int(11) NOT NULL
+  `niveau` int(11) NOT NULL,
+  `equipement_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -188,7 +189,8 @@ ALTER TABLE `monstre`
 --
 ALTER TABLE `personnage`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `p_classe` (`classe_id`);
+  ADD KEY `p_classe` (`classe_id`),
+  ADD KEY `p_equipement` (`equipement_id`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -216,7 +218,7 @@ ALTER TABLE `monstre`
 -- AUTO_INCREMENT pour la table `personnage`
 --
 ALTER TABLE `personnage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées
@@ -239,7 +241,8 @@ ALTER TABLE `monstre`
 -- Contraintes pour la table `personnage`
 --
 ALTER TABLE `personnage`
-  ADD CONSTRAINT `p_classe` FOREIGN KEY (`classe_id`) REFERENCES `classe` (`id`);
+  ADD CONSTRAINT `p_classe` FOREIGN KEY (`classe_id`) REFERENCES `classe` (`id`),
+  ADD CONSTRAINT `p_equipement` FOREIGN KEY (`equipement_id`) REFERENCES `equipement` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

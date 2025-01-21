@@ -36,14 +36,15 @@ class DbConnection {
         }
     }
 
-    public function insertPersonnage($nom, $classe, $pv, $niveau) {
+    public function insertPersonnage($nom, $classe, $pv, $niveau, $equipement) {
         $stmt = $this->executeQuery(
-            'INSERT INTO personnage (id, nom, classe_id, pv, niveau) VALUES (NULL, :nom, :classe, :pv, :niveau)', 
+            'INSERT INTO personnage (id, nom, classe_id, pv, niveau, equipement_id) VALUES (NULL, :nom, :classe, :pv, :niveau, :equipement)', 
             [   
                 ':nom' => $nom, 
                 ':classe' => $classe, 
                 ':pv' => $pv, 
-                ':niveau' => $niveau
+                ':niveau' => $niveau,
+                ':equipement' => $equipement
             ]
         );
 
@@ -56,13 +57,19 @@ class DbConnection {
     }
 
     /* DB -> Objet */
-    public function getEquipment($id) {
+    public function getEquipement($id) {
         $stmt = $this->executeQuery('SELECT * FROM equipement WHERE id = ' . $id);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
             return new Equipement($data);
         }
         return null;
+    }
+
+    public function getAllEquipements() {
+        $stmt = $this->executeQuery('SELECT * FROM equipement');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
     }
 
     public function getPersonnage($id) {
@@ -74,6 +81,12 @@ class DbConnection {
         return null;
     }
 
+    public function getAllPersonnages() {
+        $stmt = $this->executeQuery('SELECT * FROM personnage');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
     public function getClassePersonnage($id) {
         $stmt = $this->executeQuery('SELECT * FROM classe WHERE id = ' . $id);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -81,6 +94,18 @@ class DbConnection {
             return new ClassePersonnage($data);
         }
         return null;
+    }
+
+    public function getAllClassesPersonnage() {
+        $stmt = $this->executeQuery('SELECT * FROM classe');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    public function getAllEquipementClasses() {
+        $stmt = $this->executeQuery('SELECT * FROM equipement_classe');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
     }
 
     public function getMonstre($id) {
@@ -91,6 +116,12 @@ class DbConnection {
         }
         return null;
     }        
+
+    public function getAllMonstres() {
+        $stmt = $this->executeQuery('SELECT * FROM monstre');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
 
     public function getRandomMonstre() {
         $stmt = $this->executeQuery('SELECT * FROM monstre ORDER BY RAND() LIMIT 1');

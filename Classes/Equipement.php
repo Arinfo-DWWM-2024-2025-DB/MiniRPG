@@ -5,7 +5,7 @@ include_once 'Classes/ObjetDb.php';
 class Equipement extends ObjetDb
 {
     private string $nom;
-    private string $type;
+    private string $type_equipement;
     private int $puissance;
 
     public function __construct(array $data)
@@ -13,7 +13,7 @@ class Equipement extends ObjetDb
         parent::__construct($data);
 
         $this->nom = $data['nom'];
-        $this->type = $data['type'];
+        $this->type_equipement = $data['type_equipement'];
         $this->puissance = $data['puissance'];
     }
 
