@@ -1,5 +1,7 @@
 <?php
 
+include_once 'Classes/DbConnection.php';
+
 session_start();
 
 // Récupération de la classe de personnage choisie
@@ -8,9 +10,7 @@ if (isset($_SESSION['perso']))
     $perso = $_SESSION['perso'];
 }
 
-$db = new PDO('mysql:host=localhost;dbname=minirpg', 'root', '');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-
+$db: DbConnection = new DbConnection();
 
 //Variables de session
 if (!isset($_SESSION['hpHero'])) {
@@ -29,6 +29,10 @@ define('MONSTRE', 2);
 
 // A chaque attaque, le compteur +1. Si le compteur est pair, c'est le héro qui attaque. S'il est impair alors c'est au monstre.
 function attaque($attaquant){
+    $xp = 10;
+    $classe = "Guerrier";
+    $stuff = "Épée";
+
     if($attaquant == JOUEUR){
         $degat = calculerDegatsHero($xp, $classe, $stuff);
         $_SESSION['hpMonstre'] -= $degat;
@@ -38,14 +42,9 @@ function attaque($attaquant){
         $degat = calculerDegatsMonstre($typeMonstre, $stuff);
         $_SESSION['hpHero'] -= $degat;
     }
-
-    $_SESSION['compteur']++;
 };
 
-
-
 function calculerDegatsHero($xp, $classe, $stuff){
-
     if (!$xp) {
         $xp = 0;
     }
@@ -58,7 +57,7 @@ function calculerDegatsHero($xp, $classe, $stuff){
         return "Erreur : équipement non défini.";
     }
 
-    echo "XP : $xp, Classe : $classe, Stuff : $stuff<br>";
+    echo "XP : " . $xp . ", Classe : " . $classe . ", Stuff : " . $stuff . "<br>";
 
     $bonusStuff = 0;
     $bonusClasse = 0;
@@ -149,7 +148,10 @@ function calculerDegatsHero($xp, $classe, $stuff){
 }
 
 function calculerDegatsMonstre($Monstre, $Stuff){
+    $stmt: PDOStatement = $db->executeQuery('SELECT * FROM equipement WHERE id = ' . $Stuff);
+    
 
+    $bonusStuff = 0;
     switch($Monstre){
         case "Zombie" :
             $typeMonstre = 10;
@@ -209,7 +211,7 @@ function calculerDegatsMonstre($Monstre, $Stuff){
 
         default:
             $typeMonstre = 0;
-            echo "Type de monstre inconnu : $Monstre<br>";
+            echo "Type de monstre inconnu : " . $Monstre . "<br>";
             break;
     }
 

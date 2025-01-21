@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 20 jan. 2025 à 16:03
+-- Généré le : mar. 21 jan. 2025 à 11:35
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -115,28 +115,29 @@ CREATE TABLE `monstre` (
   `id` int(11) NOT NULL,
   `nom` varchar(256) NOT NULL,
   `pv` int(11) NOT NULL,
-  `equipement_id` int(11) NOT NULL
+  `equipement_id` int(11) NOT NULL,
+  `puissance` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `monstre`
 --
 
-INSERT INTO `monstre` (`id`, `nom`, `pv`, `equipement_id`) VALUES
-(1, 'Zombie', 100, 3),
-(2, 'David Lafarge', 24, 4),
-(3, 'Brachiosaurus', 1000, 11),
-(4, 'Brendon Desvaux', 1337, 8),
-(5, 'Fiddlesticks', 5, 10),
-(6, 'Vampire', 66, 1),
-(7, 'Gordon Freeman', 400, 9),
-(8, 'dragon blanc aux yeux bleus', 1000, 11),
-(9, 'Golem', 200, 2),
-(10, 'Loup-garou', 150, 6),
-(11, 'Troll', 100, 3),
-(12, 'Archer des enfers', 350, 8),
-(13, 'Spectre de la Nuit', 50, 10),
-(14, 'David Baszucki', 123, 6);
+INSERT INTO `monstre` (`id`, `nom`, `pv`, `equipement_id`, `puissance`) VALUES
+(1, 'Zombie', 100, 3, 1),
+(2, 'David Lafarge', 24, 4, 3),
+(3, 'Brachiosaurus', 224, 11, 2),
+(4, 'Brendon Desvaux', 1337, 8, -1),
+(5, 'Fiddlesticks', 5, 10, 1),
+(6, 'Vampire', 66, 1, 1),
+(7, 'Gordon Freeman', 400, 9, 3),
+(8, 'dragon blanc aux yeux bleus', 1000, 11, 1),
+(9, 'Golem', 200, 2, 2),
+(10, 'Loup-garou', 150, 6, 2),
+(11, 'Troll', 100, 3, 1),
+(12, 'Archer des enfers', 350, 8, 2),
+(13, 'Spectre de la Nuit', 50, 10, 1),
+(14, 'David Baszucki', 123, 6, 0);
 
 -- --------------------------------------------------------
 
@@ -187,7 +188,7 @@ ALTER TABLE `monstre`
 --
 ALTER TABLE `personnage`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `oh_jsp_frr` (`classe_id`);
+  ADD KEY `p_classe` (`classe_id`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -238,7 +239,7 @@ ALTER TABLE `monstre`
 -- Contraintes pour la table `personnage`
 --
 ALTER TABLE `personnage`
-  ADD CONSTRAINT `oh_jsp_frr` FOREIGN KEY (`classe_id`) REFERENCES `classe` (`id`);
+  ADD CONSTRAINT `p_classe` FOREIGN KEY (`classe_id`) REFERENCES `classe` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

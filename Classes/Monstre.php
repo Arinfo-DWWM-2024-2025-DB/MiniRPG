@@ -1,16 +1,35 @@
 <?php
 
-class Monstre
+include_once 'Classes/ObjetDb.php';
+
+class Monstre extends ObjetDb
 {
     private string $nom;
     private int $pv;
-    private int $niveau;
+    private int $puissance;
+    private string $equipement_id;
 
-    public function __construct(string $nom, int $pv, int $niveau)
+    public function save() : int {
+        $query = 'UPDATE monstre SET nom = :nom, pv = :pv, puissance = :puissance, equipement_id = :equipement_id WHERE id = :id';
+        $params = [
+            ':nom' => $this->nom,
+            ':pv' => $this->pv,
+            ':puissance' => $this->puissance,
+            ':equipement_id' => $this->equipement_id,
+            ':id' => $this->getId()
+        ];
+        $res = $this->db->executeQuery($query, $params);
+        return $res->rowCount();
+    }
+
+    public function __construct(array $data)
     {
-        $this->nom = $nom;
-        $this->pv = $pv;
-        $this->niveau = $niveau;
+        parent::__construct($data);
+
+        $this->nom = $data['nom'];
+        $this->pv = $data['pv'];
+        $this->puissance = $data['puissance'];
+        $this->equipement_id = $data['equipement_id'];
     }
 
     public function getNom(): string
@@ -28,9 +47,14 @@ class Monstre
         $this->pv = $pv;
     }
 
-    public function getNiveau(): int
+    public function getPuissance(): int
     {
-        return $this->niveau;
+        return $this->puissance;
+    }
+
+    public function getEquipement(): Equipement
+    {
+        return $this->db->getEquipement($this->equipement_id);
     }
 }
 

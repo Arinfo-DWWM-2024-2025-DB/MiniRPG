@@ -1,19 +1,35 @@
 <?php
 
-class Personnage
-{
+include_once 'Classes/ObjetDb.php';
+
+class Personnage extends ObjetDb
+{    
     private string $nom;
     private int $pv;
     private int $niveau;
-    private string $classe;
-    private array $equipements = []; // Tableau d'équipements
+    private int $classe_id;
 
-    public function __construct(string $nom, int $pv, int $niveau, string $classe)
+    public function save() : int {
+        $query = 'UPDATE personnage SET nom = :nom, pv = :pv, niveau = :niveau, classe_id = :classe_id WHERE id = :id';
+        $params = [
+            ':nom' => $this->nom,
+            ':pv' => $this->pv,
+            ':niveau' => $this->niveau,
+            ':classe_id' => $this->classe_id,
+            ':id' => $this->getId()
+        ];
+        $res = $this->db->executeQuery($query, $params);
+        return $res->rowCount();
+    }
+
+    public function __construct(array $data)
     {
-        $this->nom = $nom;
-        $this->pv = $pv;
-        $this->niveau = $niveau;
-        $this->classe = $classe;
+        parent::__construct($data);
+
+        $this->nom = $data['nom'];
+        $this->pv = $data['pv'];
+        $this->niveau = $data['niveau'];
+        $this->classe_id = $data['classe_id'];
     }
 
     public function getNom(): string
@@ -36,19 +52,9 @@ class Personnage
         return $this->niveau;
     }
 
-    public function getClasse(): string
+    public function getClasse(): ClassePersonnage
     {
-        return $this->classe;
-    }
-
-    public function getEquipements(): array
-    {
-        return $this->equipements;
-    }
-
-    public function ajouterEquipement(Equipement $equipement): void
-    {
-        $this->equipements[] = $equipement;
+        return $this->db->getClassePersonnage($this->classe_id);
     }
 }
 
