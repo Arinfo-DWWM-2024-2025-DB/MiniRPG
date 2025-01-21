@@ -58,7 +58,7 @@ class DbConnection {
 
     /* DB -> Objet */
     public function getEquipement($id) {
-        $stmt = $this->executeQuery('SELECT * FROM equipement WHERE id = ' . $id);
+        $stmt = $this->executeQuery('SELECT * FROM equipement WHERE id = :id', [':id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
             return new Equipement($data);
@@ -73,7 +73,7 @@ class DbConnection {
     }
 
     public function getPersonnage($id) {
-        $stmt = $this->executeQuery('SELECT * FROM personnage WHERE id = ' . $id);
+        $stmt = $this->executeQuery('SELECT * FROM personnage WHERE id = :id', [':id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
             return new Personnage($data);
@@ -88,7 +88,7 @@ class DbConnection {
     }
 
     public function getClassePersonnage($id) {
-        $stmt = $this->executeQuery('SELECT * FROM classe WHERE id = ' . $id);
+        $stmt = $this->executeQuery('SELECT * FROM classe WHERE id = :id', [':id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
             return new ClassePersonnage($data);
@@ -109,7 +109,7 @@ class DbConnection {
     }
 
     public function getMonstre($id) {
-        $stmt = $this->executeQuery('SELECT * FROM monstre WHERE id = ' . $id);
+        $stmt = $this->executeQuery('SELECT * FROM monstre WHERE id = :id', [':id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
             return new Monstre($data);
