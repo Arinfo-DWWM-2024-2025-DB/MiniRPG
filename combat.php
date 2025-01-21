@@ -10,7 +10,7 @@ while ($_SESSION['hpHero'] > 0 && $_SESSION['hpMonstre'] > 0) {
         $dgtA = attaque(MONSTRE);
         // Affiche les dégâts
         echo "Le monstre a infligé " . $dgtA . "dégâts au héros";
-    } else {
+    } else { // Sinon tour pair c'est le héros qui attaque
         // Attaque le monstre
         $dgtB = attaque(JOUEUR);
         // Maj des pv du Monstre
@@ -19,7 +19,7 @@ while ($_SESSION['hpHero'] > 0 && $_SESSION['hpMonstre'] > 0) {
 
     // maj des pv du Hero
     echo "PV du héros : " . $_SESSION['hpHero'];
-    echo "PV du héros : " . $_SESSION['hpMonstre'];
+    echo "PV du monstre : " . $_SESSION['hpMonstre'];
 
     // passe au tour suivant
     $_SESSION['compteur']++;
