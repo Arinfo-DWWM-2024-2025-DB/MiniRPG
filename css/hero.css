@@ -1,9 +1,19 @@
 body {
     background-image: url('../assets/Images/1881660227352678400.jpg');
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .formContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    height: 22vh;
+    background-color: #FFF9EB;
+    width: 25vw;
+    border-radius: 8px;
 }
