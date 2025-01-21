@@ -49,13 +49,13 @@ function calculerDegatsHero(){
     $bonusStuff = $_SESSION['puissanceEquipementHero'];
     $bonusClasse = $_SESSION['niveauHero'];
     
-    return ($bonusStuff + $bonusClasse);
+    return ($bonusStuff * $bonusClasse) * rand(1, 2);
 }
 
 function calculerDegatsMonstre(){   
     $bonusStuff = $_SESSION['puissanceEquipementMonstre'];
     $typeMonstre = $_SESSION['puissanceMonstre'];
-    return ($bonusStuff + $typeMonstre);
+    return ($bonusStuff * $typeMonstre);
 }
 
 ?>
