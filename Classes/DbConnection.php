@@ -100,6 +100,62 @@ class DbConnection {
         }
         return null;
     }
+
+    /* Objet -> DB */
+    public function updatePersonnage(Personnage $personnage) {
+        $query = 'UPDATE personnage SET nom = :nom, pv = :pv, niveau = :niveau, classe_id = :classe_id WHERE id = :id';
+        $params = [
+            ':nom' => $personnage->getNom(),
+            ':pv' => $personnage->getPv(),
+            ':niveau' => $personnage->getNiveau(),
+            ':classe_id' => $personnage->getClasse()->getId(),
+            ':id' => $personnage->getId()
+        ];
+        $res = $this->executeQuery($query, $params);
+        return $res->rowCount();
+    }
+
+    public function updateClassePersonnage(ClassePersonnage $classePersonnage) {
+        $query = 'UPDATE classe SET nom = :nom WHERE id = :id';
+        $params = [ 
+            ':nom' => $classePersonnage->getNom(),
+            ':id' => $classePersonnage->getId()
+        ];
+        $res = $this->executeQuery($query, $params);
+        return $res->rowCount();
+    }
+
+    public function updateMonstre(Monstre $monstre) {
+        $query = 'UPDATE monstre SET nom = :nom, pv = :pv, puissance = :puissance, equipement_id = :equipement_id WHERE id = :id';
+        $params = [
+            ':nom' => $monstre->getNom(),
+            ':pv' => $monstre->getPv(),
+            ':puissance' => $monstre->getPuissance(),
+            ':equipement_id' => $monstre->getEquipement()->getId(),
+            ':id' => $monstre->getId()
+        ];
+        $res = $this->executeQuery($query, $params);
+        return $res->rowCount();
+    }
+
+    public function updateEquipement(Equipement $equipement) {
+        $query = 'UPDATE equipement SET nom = :nom, type = :type, puissance = :puissance WHERE id = :id';
+        $params = [
+            ':nom' => $equipement->getNom(),   
+            ':type' => $equipement->getType(),
+            ':puissance' => $equipement->getPuissance(),
+            ':id' => $equipement->getId()
+        ];
+        $res = $this->executeQuery($query, $params);
+        return $res->rowCount();
+    }
+
+    public function deletePersonnage($id) {
+        $query = 'DELETE FROM personnage WHERE id = :id';
+        $params = [ ':id' => $id ];
+        $res = $this->executeQuery($query, $params);
+        return $res->rowCount();
+    }
 }
 
 ?>

@@ -9,19 +9,6 @@ class Monstre extends ObjetDb
     private int $puissance;
     private string $equipement_id;
 
-    public function save() : int {
-        $query = 'UPDATE monstre SET nom = :nom, pv = :pv, puissance = :puissance, equipement_id = :equipement_id WHERE id = :id';
-        $params = [
-            ':nom' => $this->nom,
-            ':pv' => $this->pv,
-            ':puissance' => $this->puissance,
-            ':equipement_id' => $this->equipement_id,
-            ':id' => $this->getId()
-        ];
-        $res = $this->db->executeQuery($query, $params);
-        return $res->rowCount();
-    }
-
     public function __construct(array $data)
     {
         parent::__construct($data);

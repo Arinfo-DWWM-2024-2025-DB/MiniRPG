@@ -9,19 +9,6 @@ class Personnage extends ObjetDb
     private int $niveau;
     private int $classe_id;
 
-    public function save() : int {
-        $query = 'UPDATE personnage SET nom = :nom, pv = :pv, niveau = :niveau, classe_id = :classe_id WHERE id = :id';
-        $params = [
-            ':nom' => $this->nom,
-            ':pv' => $this->pv,
-            ':niveau' => $this->niveau,
-            ':classe_id' => $this->classe_id,
-            ':id' => $this->getId()
-        ];
-        $res = $this->db->executeQuery($query, $params);
-        return $res->rowCount();
-    }
-
     public function __construct(array $data)
     {
         parent::__construct($data);

@@ -8,8 +8,6 @@ abstract class ObjetDb {
 
     private int $id;   
 
-    abstract public function save() : int;
-
     public function __construct(array $data) {
         $this->id = $data['id'];
         $this->data = $data;
