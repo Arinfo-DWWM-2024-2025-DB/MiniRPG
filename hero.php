@@ -2,33 +2,40 @@
 
 session_start();
 
-$db = new PDO('mysql:host=localhost;dbname=minirpg', 'root', '');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-
+try {
+    // Connexion à la base de données
+    $pdo = new PDO('mysql:host=localhost;dbname=minirpg;charset=utf8', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die('Erreur de connexion : ' . $e->getMessage());
+}
 
 
 //Récupération des classes
-$sqlClasses = "SELECT id, nom FROM classes";
+$sqlClasses = "SELECT id, nom FROM classe";
 $classes = [];
 try {
     $stmt = $pdo->query($sqlClasses);
     $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}catch (PDOException $e) {
+    die('Erreur lors de la récupération des classes : ' . $e->getMessage());
 }
 
 
 //Récupération des equipements : nom, id et classe associée + deux jointures
 $sqlEquipements = "
     SELECT e.id AS equipement_id, e.nom AS equipement_nom, c.id AS classe_id 
-    FROM equipement
+    FROM equipement e
     INNER JOIN equipement_classe ec ON e.id = ec.equipement_id
     INNER JOIN classe c ON ec.classe_id = c.id
     ";
-
 
 $equipements = [];
 try {
     $stmt = $pdo->query($sqlEquipements);
     $equipements = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}catch (PDOException $e) {
+    die('Erreur lors de la récupération des équipements : ' . $e->getMessage());
 }
 
 ?>
@@ -43,6 +50,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Création d'un personnage</title>
+<link rel="stylesheet" href="css/hero.css"
 </head>
 
 <body>
@@ -52,8 +60,8 @@ try {
         <label>Nom du héros : </label>
         <input type="text" id="hero-name" name="hero_name" required>
         <br>
-        <label for="hero-class">Classe du héros :</label>
-        <select id="hero-class" name="hero_class" required>
+        <label for="class">Classe du héros :</label>
+        <select id="classHero" name="classHero" required>
             <?php foreach ($classes as $class): ?>
                 <option value="<?= htmlspecialchars($class['id']) ?>">
                     <?= htmlspecialchars($class['nom']) ?>
@@ -61,8 +69,8 @@ try {
             <?php endforeach; ?>
         </select>
 
-        <label for="hero-gear">Équipement :</label>
-        <select id="hero-gear" name="hero_gear" required>
+        <label for="stuff">Équipement :</label>
+        <select id="stuffHero" name="stuffHero" required>
             <option value="épée">Épée</option>
             <option value="bâton">Bâton</option>
             <option value="arc">Arc</option>
