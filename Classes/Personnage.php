@@ -5,10 +5,10 @@ class Personnage
     private string $nom;
     private int $pv;
     private int $niveau;
-    private Classe $classe;
+    private string $classe;
     private array $equipements = []; // Tableau d'équipements
 
-    public function __construct(string $nom, int $pv, int $niveau, Classe $classe)
+    public function __construct(string $nom, int $pv, int $niveau, string $classe)
     {
         $this->nom = $nom;
         $this->pv = $pv;
@@ -36,7 +36,7 @@ class Personnage
         return $this->niveau;
     }
 
-    public function getClasse(): Classe
+    public function getClasse(): string
     {
         return $this->classe;
     }
