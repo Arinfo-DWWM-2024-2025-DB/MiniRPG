@@ -1,0 +1,8 @@
+body {
+    background-image: url('../assets/Images/ring.jpg');
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
